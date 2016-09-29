@@ -5,10 +5,12 @@ SRCS_COMMON = main.c
 SRCS        = $(wildcard clz/*.c)
 EXECUTABLE	= $(addprefix clz_, $(basename $(notdir $(SRCS))))
 
+MODE		?= PERFORMANCE
+
 all: $(EXECUTABLE)
 
 clz_%: $(SRCS_COMMON) clz/%.c
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -D$(MODE) -DOUTPUT_NAME='"$@"' -o $@
 
 test: $(EXECUTABLE)
 	time ./clz_binary_search
@@ -18,4 +20,4 @@ test: $(EXECUTABLE)
 	time ./clz_recursive
 
 clean:
-	rm -rf $(EXECUTABLE)
+	rm -rf $(EXECUTABLE) *.txt runtime.png
